@@ -21,10 +21,10 @@ public interface OgrenciRepository extends JpaRepository<Ogrenci, Long> {
     List<Ogrenci> findStudentsWithNoBook();
 
     //10A veya 10B sınıfındaki öğrencileri sınıf ve okuduğu kitap sayısını getirin.
-    String QUESTION_4 = "select o.ad,o.sinif,count(i.ogrno) from ogrenci as o \n" +
-            "inner join islem as i \n" +
-            "on i.ogrno = o.ogrno \n" +
-            "where o.sinif ='10A' or o.sinif ='10B' group by o.ad,o.sinif";
+    String QUESTION_4 = "select o.sinif,count(i.ogrno) from ogrenci as o \n" +
+            "            inner join islem as i \n" +
+            "            on i.ogrno = o.ogrno \n" +
+            "            where o.sinif ='10A' or o.sinif ='10B' group by o.sinif";
     @Query(value = QUESTION_4, nativeQuery = true)
     List<KitapCount> findClassesWithBookCount();
 
@@ -40,7 +40,7 @@ public interface OgrenciRepository extends JpaRepository<Ogrenci, Long> {
 
     //--İsme göre öğrenci sayılarının adedini bulunuz.
     //--Ali: 2, Mehmet: 3
-    String QUESTION_7 = "select count(distinct ad) from ogrenci";
+    String QUESTION_7 = "select ad, count( ad) from ogrenci group by ad";
     @Query(value = QUESTION_7, nativeQuery = true)
     List<StudentNameCount> findStudentNameCount();
 
@@ -50,7 +50,7 @@ public interface OgrenciRepository extends JpaRepository<Ogrenci, Long> {
     List<StudentClassCount> findStudentClassCount();
 
     //Her öğrencinin ad soyad karşılığında okuduğu kitap sayısını getiriniz.
-    String QUESTION_9 = "SELECT distinct(o.ad),(o.soyad),count(i.kitapno) FROM ogrenci AS o inner JOIN islem AS i ON o.ogrno = i.ogrno group by o.ad,o.soyad order by o.ad";
+    String QUESTION_9 = "SELECT (o.ad),(o.soyad),count(i.kitapno) FROM ogrenci AS o inner JOIN islem AS i ON o.ogrno = i.ogrno group by o.ad,o.soyad";
     @Query(value = QUESTION_9, nativeQuery = true)
     List<StudentNameSurnameCount> findStudentNameSurnameCount();
 }
